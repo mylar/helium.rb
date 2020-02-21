@@ -10,7 +10,7 @@ require 'helium/mnemonic'
 require 'helium/version'
 
 module Helium
-  def self.generate_keypair(mnemonic: [])
+  def self.generate_keypair(mnemonic = [])
     Helium::Keypair.generate(mnemonic)
   end
 end
