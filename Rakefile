@@ -21,6 +21,18 @@ namespace :wordlist do
   end
 end
 
+namespace :protos do
+  PROTO_REPO_URL = 'https://github.com/helium/proto.git'
+
+  task :add do
+    sh "git subtree add --prefix protos #{PROTO_REPO_URL} master --squash"
+  end
+
+  task :update do
+    sh "git subtree pull --prefix protos #{PROTO_REPO_URL} master --squash"
+  end
+end
+
 RSpec::Core::RakeTask.new(:spec)
 
 task default: :spec
