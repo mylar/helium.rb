@@ -1,0 +1,14 @@
+/doc/
+/pkg/
+
+# Bundler
+Gemfile.lock
+/.bundle/
+
+# rspec failure tracking
+.rspec_status
+
+# Editor
+/.idea/
+.rakeTasks
+
