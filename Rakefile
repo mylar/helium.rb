@@ -23,6 +23,13 @@ end
 
 namespace :protos do
   PROTO_REPO_URL = 'https://github.com/helium/proto.git'
+  PROTO_DIR = 'protos/src'
+  PROTO_FILES = Dir.glob("#{PROTO_DIR}/blockchain_txn_*.proto") + %W[
+    #{PROTO_DIR}/blockchain_txn.proto
+    #{PROTO_DIR}/blockchain_state_channel_v1.proto
+    #{PROTO_DIR}/packet.proto
+  ]
+  PROTOS_RB_DIR = 'lib/helium/protos'
 
   task :add do
     sh "git subtree add --prefix protos #{PROTO_REPO_URL} master --squash"
@@ -30,6 +37,11 @@ namespace :protos do
 
   task :update do
     sh "git subtree pull --prefix protos #{PROTO_REPO_URL} master --squash"
+  end
+
+  task :compile do
+    Dir.glob("#{PROTOS_RB_DIR}/*_pb.rb").each { |f| FileUtils.rm(f) }
+    sh "protoc --ruby_out=#{PROTOS_RB_DIR} --proto_path=#{PROTO_DIR} #{PROTO_FILES.join(' ')}"
   end
 end
 
