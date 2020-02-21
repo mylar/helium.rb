@@ -30,6 +30,10 @@ module Helium
       Helium::Address.new(public_key_bytes)
     end
 
+    def sign(message)
+      @signing_key.sign(message)
+    end
+
     def self.generate(mnemonic = [])
       return new(RbNaCl::SigningKey.generate) if mnemonic.empty?
 
