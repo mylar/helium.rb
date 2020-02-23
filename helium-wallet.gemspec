@@ -22,6 +22,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency('google-protobuf', '~> 3.11.4')
   spec.add_dependency('http', '~> 4.3')
   spec.add_dependency('rbnacl', '~> 7.1')
+  spec.add_dependency('warning', '~> 1.0')
   spec.add_development_dependency('down', '~> 5.1')
   spec.add_development_dependency('rake', '~> 13.0')
   spec.add_development_dependency('rspec', '~> 3.9')

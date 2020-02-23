@@ -10,7 +10,15 @@ require 'helium/mnemonic'
 require 'helium/version'
 
 # Needed because the generated protos assume a lot about load path
-$LOAD_PATH << File.join(File.dirname(__FILE__), %w[helium protos])
+proto_path = File.join(File.dirname(__FILE__), %w[helium protos])
+$LOAD_PATH << proto_path
+
+require 'rubygems'
+require 'warning'
+
+# Suppress warnings on generated protobuf code
+Warning.ignore(/rb_define_const: invalid name `\w+' for constant/, proto_path)
+Warning.ignore(/Enum value '\w+' does not start with an uppercase letter/, proto_path)
 
 require 'helium/protos/blockchain_txn_pb'
 require 'helium/protos/blockchain_txn_payment_v1_pb'
