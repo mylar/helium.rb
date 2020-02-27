@@ -28,6 +28,20 @@ module Helium
     Helium::Keypair.generate(mnemonic)
   end
 
+  def self.account(address)
+    Helium::Client.new.account(address)
+  end
+
+  def self.balance(address)
+    account = account(address)
+    account['balance']
+  end
+
+  def self.nonce(address)
+    account = account(address)
+    account['nonce']
+  end
+
   def self.generate_payment_transaction(payer_keypair, payee_address, amount)
     raise 'Expected a payer keypair' unless payer_keypair.is_a?(Helium::Keypair)
     raise 'Expected a payee address' unless payee_address.is_a?(Helium::Address)
@@ -40,7 +54,7 @@ module Helium
     payment.payee = payee_address.base58
     payment.amount = amount
     payment.fee = 0
-    payment.nonce = payer_account['nonce'] + 1
+    payment.nonce = nonce(payer_address) + 1
     payment.signature = payer_keypair.sign(Helium::Blockchain_txn_payment_v1.encode(payment))
 
     txn = Helium::Blockchain_txn.new
