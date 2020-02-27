@@ -28,6 +28,10 @@ module Helium
     Helium::Keypair.generate(mnemonic)
   end
 
+  def self.bones_to_hnt(bones)
+    bones / 100_000_000.to_f
+  end
+
   def self.account(address)
     Helium::Client.new.account(address)
   end
