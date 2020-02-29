@@ -51,7 +51,6 @@ module Helium
     raise 'Expected a payee address' unless payee_address.is_a?(Helium::Address)
 
     payer_address = payer_keypair.address
-    payer_account = Helium::Client.new.account(payer_address)
 
     payment = Helium::Blockchain_txn_payment_v1.new
     payment.payer = payer_address.base58
