@@ -78,4 +78,8 @@ module Helium
 
     txn
   end
+
+  def self.submit_transaction(transaction)
+    Helium::Client.new.submit_transaction(transaction)
+  end
 end
