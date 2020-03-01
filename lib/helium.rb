@@ -50,14 +50,27 @@ module Helium
     raise 'Expected a payer keypair' unless payer_keypair.is_a?(Helium::Keypair)
     raise 'Expected a payee address' unless payee_address.is_a?(Helium::Address)
 
-    payer_address = payer_keypair.address
+    payer_pubkey_bytes = payer_keypair.signing_key.verify_key.to_bytes.unpack('C*')
+    payer_pubkey_bytes.unshift(Helium::Keypair::KEYTYPE_ED25519)
+
+    payee_pubkey_bytes = payee_address.bytes
+
+    # NB: Remove check bytes
+    payee_pubkey_bytes.slice!(-Helium::Keypair::CHECK_LENGTH, Helium::Keypair::CHECK_LENGTH)
+
+    # NB: Remove address version and key type
+    payee_pubkey_bytes.shift
+    payee_pubkey_bytes.shift
+
+    # NB: Add key type
+    payee_pubkey_bytes.unshift(Helium::Keypair::KEYTYPE_ED25519)
 
     payment = Helium::Blockchain_txn_payment_v1.new
-    payment.payer = payer_address.base58
-    payment.payee = payee_address.base58
+    payment.payer = payer_pubkey_bytes.pack('C*')
+    payment.payee = payee_pubkey_bytes.pack('C*')
     payment.amount = amount
     payment.fee = 0
-    payment.nonce = nonce(payer_address) + 1
+    payment.nonce = nonce(payer_keypair.address) + 1
     payment.signature = payer_keypair.sign(Helium::Blockchain_txn_payment_v1.encode(payment))
 
     txn = Helium::Blockchain_txn.new
