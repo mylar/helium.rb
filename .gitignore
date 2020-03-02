@@ -12,3 +12,5 @@ Gemfile.lock
 /.idea/
 .rakeTasks
 
+# Integration test with keys
+/spec/integration_spec.rb
