@@ -46,7 +46,12 @@ module Helium
     account['nonce']
   end
 
-  def self.generate_payment_transaction(payer_keypair, payee_address, amount, nonce)
+  def self.speculative_nonce(address)
+    account = account(address)
+    account['speculative_nonce']
+  end
+
+  def self.generate_payment_transaction(payer_keypair, payee_address, amount)
     raise 'Expected a payer keypair' unless payer_keypair.is_a?(Helium::Keypair)
     raise 'Expected a payee address' unless payee_address.is_a?(Helium::Address)
 
@@ -70,7 +75,7 @@ module Helium
     payment.payee = payee_pubkey_bytes.pack('C*')
     payment.amount = amount
     payment.fee = 0
-    payment.nonce = nonce
+    payment.nonce = speculative_nonce(payer_keypair.address) + 1
     payment.signature = payer_keypair.sign(Helium::Blockchain_txn_payment_v1.encode(payment))
 
     txn = Helium::Blockchain_txn.new
@@ -82,12 +87,14 @@ module Helium
   def self.submit_transaction(transaction)
     raise 'Expected a blockchain transaction' unless transaction.is_a?(Helium::Blockchain_txn)
 
-    Helium::Client.new.submit_transaction(transaction)
+    Helium::Client.new.submit_transaction(transaction)['hash']
   end
 
-  def self.transactions(address, limit=1000, before=nil)
-    raise 'Expected an address' unless address.is_a?(Helium::Address)
+  def self.pending_transaction(transaction_hash)
+    Helium::Client.new.pending_transaction(transaction_hash)
+  end
 
-    Helium::Client.new.transactions(address, limit, before)
+  def self.transaction(transaction_hash)
+    Helium::Client.new.transaction(transaction_hash)
   end
 end
