@@ -80,6 +80,8 @@ module Helium
   end
 
   def self.submit_transaction(transaction)
+    raise 'Expected a blockchain transaction' unless transaction.is_a?(Helium::Blockchain_txn)
+
     Helium::Client.new.submit_transaction(transaction)
   end
 end
