@@ -43,4 +43,28 @@ RSpec.describe Helium::Client do
       expect(subject).to be_nil
     end
   end
+
+  describe '#transactions' do
+    let(:address) { Helium::Address.from_base58('149diwz9iE4LyL6kgaPW5iMosbk9PwiBXiDzAa4SXsNU6PPZZ2r') }
+    let(:response) { File.read(File.join(File.dirname(__FILE__), %w[.. fixtures transactions.cleared.response.json])) }
+
+    subject { instance.transactions(address) }
+
+    before do
+      stub_request(:get, 'https://explorer.helium.foundation/api/accounts/149diwz9iE4LyL6kgaPW5iMosbk9PwiBXiDzAa4SXsNU6PPZZ2r/transactions?limit=100')
+        .to_return(status: 200, body: response)
+    end
+
+    it 'calls the Helium API and returns transactions' do
+      expect(subject).not_to be_empty
+    end
+
+    context 'with pending transactions' do
+      let(:response) { File.read(File.join(File.dirname(__FILE__), %w[.. fixtures transactions.pending.response.json])) }
+
+      it 'contains pending transactions' do
+        expect(subject.filter { |txn| txn.include?('status') && txn['status'] == 'pending' }).not_to be_empty
+      end
+    end
+  end
 end

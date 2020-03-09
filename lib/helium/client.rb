@@ -34,5 +34,19 @@ module Helium
       response = response.body.to_s
       raise ServiceError, "Unexpected response: #{response}" unless response == 'ok'
     end
+
+    def transactions(address, limit=100, before=nil)
+      raise InputError, 'Expected a Helium address object' unless address.is_a?(Helium::Address)
+
+      params = { limit: limit }
+      params[:before] = before unless before.nil?
+
+      response = HTTP.headers('Content-Type' => 'application/json', 'Accept' => 'application/json')
+                     .get("https://explorer.helium.foundation/api/accounts/#{address.base58}/transactions", params: params)
+
+      raise ServiceError, "Unexpected response: #{response.status}: #{response.body}" unless response.status.ok?
+
+      JSON.parse(response.body.to_s)['data']
+    end
   end
 end

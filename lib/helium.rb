@@ -84,4 +84,10 @@ module Helium
 
     Helium::Client.new.submit_transaction(transaction)
   end
+
+  def self.transactions(address, limit=1000, before=nil)
+    raise 'Expected an address' unless address.is_a?(Helium::Address)
+
+    Helium::Client.new.transactions(address, limit, before)
+  end
 end
