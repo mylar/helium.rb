@@ -29,12 +29,12 @@ RSpec.describe Helium::Client do
     let(:payer_keypair) { Helium::Keypair.generate }
     let(:payee_address) { Helium::Keypair.generate.address }
     let(:amount) { 2 }
-    let(:transaction) { Helium.generate_payment_transaction(payer_keypair, payee_address, amount) }
+    let(:nonce) { 1 }
+    let(:transaction) { Helium.generate_payment_transaction(payer_keypair, payee_address, amount, nonce) }
 
     subject { instance.submit_transaction(transaction) }
 
     before do
-      allow(Helium).to receive(:nonce).with(an_instance_of(Helium::Address)).and_return(1)
       stub_request(:post, 'https://explorer.helium.foundation/api/transactions')
         .to_return(status: 200, body: 'ok')
     end
