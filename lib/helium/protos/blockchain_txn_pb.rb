@@ -25,6 +25,7 @@ require 'blockchain_txn_token_burn_exchange_rate_v1_pb'
 require 'blockchain_txn_state_channel_open_v1_pb'
 require 'blockchain_txn_update_gateway_oui_v1_pb'
 require 'blockchain_txn_state_channel_close_v1_pb'
+require 'blockchain_txn_payment_v2_pb'
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("blockchain_txn.proto", :syntax => :proto3) do
     add_message "helium.blockchain_txn" do
@@ -52,6 +53,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
         optional :state_channel_open, :message, 21, "helium.blockchain_txn_state_channel_open_v1"
         optional :update_gateway_oui, :message, 22, "helium.blockchain_txn_update_gateway_oui_v1"
         optional :state_channel_close, :message, 23, "helium.blockchain_txn_state_channel_close_v1"
+        optional :payment_v2, :message, 24, "helium.blockchain_txn_payment_v2"
       end
     end
     add_message "helium.blockchain_txn_bundle_v1" do

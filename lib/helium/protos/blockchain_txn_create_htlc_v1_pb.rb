@@ -14,6 +14,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :amount, :uint64, 6
       optional :fee, :uint64, 7
       optional :signature, :bytes, 8
+      optional :nonce, :uint64, 9
     end
   end
 end
