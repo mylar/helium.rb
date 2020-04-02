@@ -12,8 +12,17 @@ RSpec.describe Helium do
     let(:payee) { Helium.generate_keypair(payee_words).address }
     let(:amount) { 100_000_000 } # 1 HNT
     let(:nonce) { 7 }
+    let(:destinations) do
+      destinations = {}
+      destinations[payee] = amount
+      destinations
+    end
 
-    subject { described_class.generate_payment_transaction(payer, payee, amount, nonce) }
+    subject { described_class.generate_payment_transaction(payer, destinations) }
+
+    before do
+      allow(Helium).to receive(:speculative_nonce).and_return(nonce)
+    end
 
     it 'generates a payment transaction' do
       expect(subject).to be_a(Helium::Blockchain_txn)

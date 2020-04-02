@@ -10,7 +10,7 @@ RSpec.describe Helium::Client do
     subject { instance.account(address) }
 
     before do
-      stub_request(:get, 'https://explorer.helium.foundation/api/accounts/13buBykFQf5VaQtv7mWj2PBY9Lq4i1DeXhg7C4Vbu3ppzqqNkTH')
+      stub_request(:get, 'https://api.helium.io/v1/accounts/13buBykFQf5VaQtv7mWj2PBY9Lq4i1DeXhg7C4Vbu3ppzqqNkTH')
         .to_return(status: 200, body: response)
     end
 
@@ -28,42 +28,77 @@ RSpec.describe Helium::Client do
   describe '#submit_transaction' do
     let(:payer_keypair) { Helium::Keypair.generate }
     let(:payee_address) { Helium::Keypair.generate.address }
-    let(:amount) { 2 }
-    let(:nonce) { 1 }
-    let(:transaction) { Helium.generate_payment_transaction(payer_keypair, payee_address, amount, nonce) }
+    let(:destinations) do
+      destinations = {}
+      destinations[payee_address] = 2
+      destinations
+    end
+    let(:transaction) { Helium.generate_payment_transaction(payer_keypair, destinations ) }
+    let(:response) { '{"data":{"hash":"ULafJOuW9JsZxspeFFlUwMcW2_nHKjx8B7jDcvuY56Q"}}' }
 
     subject { instance.submit_transaction(transaction) }
 
     before do
-      stub_request(:post, 'https://explorer.helium.foundation/api/transactions')
-        .to_return(status: 200, body: 'ok')
-    end
-
-    it 'calls the Helium API to submit the transaction' do
-      expect(subject).to be_nil
-    end
-  end
-
-  describe '#transactions' do
-    let(:address) { Helium::Address.from_base58('149diwz9iE4LyL6kgaPW5iMosbk9PwiBXiDzAa4SXsNU6PPZZ2r') }
-    let(:response) { File.read(File.join(File.dirname(__FILE__), %w[.. fixtures transactions.cleared.response.json])) }
-
-    subject { instance.transactions(address) }
-
-    before do
-      stub_request(:get, 'https://explorer.helium.foundation/api/accounts/149diwz9iE4LyL6kgaPW5iMosbk9PwiBXiDzAa4SXsNU6PPZZ2r/transactions?limit=100')
+      allow(Helium).to receive(:speculative_nonce).with(instance_of(Helium::Address)).and_return(1)
+      stub_request(:post, 'https://api.helium.io/v1/pending_transactions')
         .to_return(status: 200, body: response)
     end
 
-    it 'calls the Helium API and returns transactions' do
-      expect(subject).not_to be_empty
+    it 'calls the Helium API to submit the transaction' do
+      expect(subject).to have_key('hash')
+    end
+  end
+
+  describe '#pending_transaction' do
+    let(:transaction_hash) { 'ULafJOuW9JsZxspeFFlUwMcW2_nHKjx8B7jDcvuY56Q' }
+
+    subject { instance.pending_transaction(transaction_hash) }
+
+    before do
+      stub_request(:get, "https://api.helium.io/v1/pending_transactions/#{transaction_hash}")
+        .to_return(status: pending_status, body: pending_response)
     end
 
-    context 'with pending transactions' do
-      let(:response) { File.read(File.join(File.dirname(__FILE__), %w[.. fixtures transactions.pending.response.json])) }
+    shared_examples_for 'it is a submitted transaction' do |status|
+      it 'returns submitted transaction details' do
+        expect(subject).not_to be_empty
+      end
 
-      it 'contains pending transactions' do
-        expect(subject.filter { |txn| txn.include?('status') && txn['status'] == 'pending' }).not_to be_empty
+      it "is #{status}" do
+        expect(subject['status']).to eq(status)
+      end
+    end
+
+    context 'status = received' do
+      let(:pending_status) { 200 }
+      let(:pending_response) { File.read(File.join(File.dirname(__FILE__), %w[.. fixtures pending_transactions.received.response.json])) }
+
+      it_behaves_like 'it is a submitted transaction', 'received'
+    end
+
+    context 'status = pending' do
+      let(:pending_status) { 200 }
+      let(:pending_response) { File.read(File.join(File.dirname(__FILE__), %w[.. fixtures pending_transactions.pending.response.json])) }
+
+      it_behaves_like 'it is a submitted transaction', 'pending'
+    end
+
+    context 'status = cleared' do
+      let(:pending_status) { 404 }
+      let(:pending_response) { 'Not Found' }
+      let(:cleared_response) { File.read(File.join(File.dirname(__FILE__), %w[.. fixtures transactions.cleared.response.json])) }
+
+      before do
+        stub_request(:get, "https://api.helium.io/v1/transactions/#{transaction_hash}")
+          .to_return(status: 200, body: cleared_response)
+      end
+
+      it 'returns cleared transaction details' do
+        expect(subject).not_to be_empty
+      end
+
+      it 'contains a block height' do
+        expect(subject['height']).not_to be_nil
       end
     end
   end
