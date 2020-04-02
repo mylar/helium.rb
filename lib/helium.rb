@@ -51,35 +51,45 @@ module Helium
     account['speculative_nonce']
   end
 
-  def self.generate_payment_transaction(payer_keypair, payee_address, amount)
+  def self.generate_payment_transaction(payer_keypair, destinations = {})
     raise 'Expected a payer keypair' unless payer_keypair.is_a?(Helium::Keypair)
-    raise 'Expected a payee address' unless payee_address.is_a?(Helium::Address)
+    raise 'Expected at least one payee/amount destination pair' if destinations.empty?
+    raise 'Expected payee addresses in destinations' unless destinations.all? { |k, _| k.is_a?(Helium::Address) }
+    raise 'Expected positive amounts in destinations' unless destinations.all? { |_, v| v > 0 }
 
     payer_pubkey_bytes = payer_keypair.signing_key.verify_key.to_bytes.unpack('C*')
     payer_pubkey_bytes.unshift(Helium::Keypair::KEYTYPE_ED25519)
 
-    payee_pubkey_bytes = payee_address.bytes
+    payment_v2 = Helium::Blockchain_txn_payment_v2.new
+    payment_v2.payer = payer_pubkey_bytes.pack('C*')
+    payment_v2.fee = 0
+    payment_v2.nonce = speculative_nonce(payer_keypair.address) + 1
 
-    # NB: Remove check bytes
-    payee_pubkey_bytes.slice!(-Helium::Keypair::CHECK_LENGTH, Helium::Keypair::CHECK_LENGTH)
+    destinations.each do |payee_address, amount|
+      payee_pubkey_bytes = payee_address.bytes
 
-    # NB: Remove address version and key type
-    payee_pubkey_bytes.shift
-    payee_pubkey_bytes.shift
+      # NB: Remove check bytes
+      payee_pubkey_bytes.slice!(-Helium::Keypair::CHECK_LENGTH, Helium::Keypair::CHECK_LENGTH)
 
-    # NB: Add key type
-    payee_pubkey_bytes.unshift(Helium::Keypair::KEYTYPE_ED25519)
+      # NB: Remove address version and key type
+      payee_pubkey_bytes.shift
+      payee_pubkey_bytes.shift
 
-    payment = Helium::Blockchain_txn_payment_v1.new
-    payment.payer = payer_pubkey_bytes.pack('C*')
-    payment.payee = payee_pubkey_bytes.pack('C*')
-    payment.amount = amount
-    payment.fee = 0
-    payment.nonce = speculative_nonce(payer_keypair.address) + 1
-    payment.signature = payer_keypair.sign(Helium::Blockchain_txn_payment_v1.encode(payment))
+      # NB: Add key type
+      payee_pubkey_bytes.unshift(Helium::Keypair::KEYTYPE_ED25519)
+
+
+      payment = Helium::Payment.new
+      payment.payee = payee_pubkey_bytes.pack('C*')
+      payment.amount = amount
+
+      payment_v2.payments << payment
+    end
+
+    payment_v2.signature = payer_keypair.sign(Helium::Blockchain_txn_payment_v2.encode(payment_v2))
 
     txn = Helium::Blockchain_txn.new
-    txn.payment = payment
+    txn.payment_v2 = payment_v2
 
     txn
   end

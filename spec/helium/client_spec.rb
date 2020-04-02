@@ -28,8 +28,12 @@ RSpec.describe Helium::Client do
   describe '#submit_transaction' do
     let(:payer_keypair) { Helium::Keypair.generate }
     let(:payee_address) { Helium::Keypair.generate.address }
-    let(:amount) { 2 }
-    let(:transaction) { Helium.generate_payment_transaction(payer_keypair, payee_address, amount) }
+    let(:destinations) do
+      destinations = {}
+      destinations[payee_address] = 2
+      destinations
+    end
+    let(:transaction) { Helium.generate_payment_transaction(payer_keypair, destinations ) }
     let(:response) { '{"data":{"hash":"ULafJOuW9JsZxspeFFlUwMcW2_nHKjx8B7jDcvuY56Q"}}' }
 
     subject { instance.submit_transaction(transaction) }
