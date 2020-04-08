@@ -21,7 +21,7 @@ RSpec.describe Helium::Client do
     end
 
     it 'has a nonce' do
-      expect(subject['nonce']).to eq(6)
+      expect(subject['nonce']).to eq(15)
     end
   end
 

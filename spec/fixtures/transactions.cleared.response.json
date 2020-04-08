@@ -1,13 +1,22 @@
 {
   "data": {
-    "amount": 2,
     "fee": 0,
-    "hash": "ULafJOuW9JsZxspeFFlUwMcW2_nHKjx8B7jDcvuY56Q",
-    "height": 240826,
-    "nonce": 16,
-    "payee": "149diwz9iE4LyL6kgaPW5iMosbk9PwiBXiDzAa4SXsNU6PPZZ2r",
+    "hash": "Y31G-oybQUtQ24DAxWC0VoZBqBAQwzw2Ig2oZ3XEI6A",
+    "height": 283638,
+    "nonce": 28,
+    "time": 1586389589,
+    "payments": [
+      {
+        "payee": "149diwz9iE4LyL6kgaPW5iMosbk9PwiBXiDzAa4SXsNU6PPZZ2r",
+        "amount": 2
+      },
+      {
+        "payee": "14soPYCnxFTsFmGt8wnYoYUWozWnmbrtN6GKeqYtPb6JHUXJdFP",
+        "amount": 3
+      }
+    ],
     "payer": "12zCpoDkcgmVwTuSHL8YK31tBJ8gsnowZyUELj644TBQFG3xQrS",
-    "signature": "KIWUMi3FUvmeA6BZCxOGik2nX7Ly-drJj0W7xb42zs3-Lg0tmERDbnuvZmJehGGMvn5Dn3s1EEuZIE0VlFiqCw",
-    "type": "payment_v1"
+    "signature": "OWeXDOFtRvDqsHGX5he8W6tJmSFM0ssfrwMZ7GcwUN84Lrlgx9Yfyj1BWo3k146y_DmspzNBHeJzmWiUjKt_CA",
+    "type": "payment_v2"
   }
 }

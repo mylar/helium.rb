@@ -1,12 +1,13 @@
 {
   "data": {
     "address": "13buBykFQf5VaQtv7mWj2PBY9Lq4i1DeXhg7C4Vbu3ppzqqNkTH",
-    "balance": 35427565013653,
+    "balance": 37130301716760,
     "dc_balance": 0,
     "dc_nonce": 0,
-    "nonce": 6,
+    "nonce": 15,
     "sec_balance": 0,
     "sec_nonce": 0,
-    "speculative_nonce": 6
+    "speculative_nonce": 15,
+    "block": 283615
   }
 }
