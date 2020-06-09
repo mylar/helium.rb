@@ -8,12 +8,14 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     add_message "helium.blockchain_txn_oui_v1" do
       optional :owner, :bytes, 1
       repeated :addresses, :bytes, 2
-      optional :oui, :uint64, 3
-      optional :payer, :bytes, 4
-      optional :staking_fee, :uint64, 5
-      optional :fee, :uint64, 6
-      optional :owner_signature, :bytes, 7
-      optional :payer_signature, :bytes, 8
+      optional :filter, :bytes, 3
+      optional :requested_subnet_size, :uint32, 4
+      optional :payer, :bytes, 5
+      optional :staking_fee, :uint64, 6
+      optional :fee, :uint64, 7
+      optional :owner_signature, :bytes, 8
+      optional :payer_signature, :bytes, 9
+      optional :oui, :uint64, 10
     end
   end
 end

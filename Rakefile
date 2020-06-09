@@ -28,6 +28,7 @@ namespace :protos do
     #{PROTO_DIR}/blockchain_txn.proto
     #{PROTO_DIR}/blockchain_state_channel_v1.proto
     #{PROTO_DIR}/packet.proto
+    #{PROTO_DIR}/skewed.proto
   ]
   PROTOS_RB_DIR = 'lib/helium/protos'
 

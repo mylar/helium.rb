@@ -9,8 +9,10 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :id, :bytes, 1
       optional :owner, :bytes, 2
       optional :amount, :int64, 3
-      optional :expire_at_block, :int64, 4
-      optional :signature, :bytes, 5
+      optional :expire_within, :int64, 4
+      optional :oui, :uint64, 5
+      optional :nonce, :uint64, 6
+      optional :signature, :bytes, 7
     end
   end
 end

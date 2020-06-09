@@ -5,6 +5,16 @@ require 'google/protobuf'
 
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("packet.proto", :syntax => :proto3) do
+    add_message "helium.eui" do
+      optional :deveui, :uint64, 1
+      optional :appeui, :uint64, 2
+    end
+    add_message "helium.routing_information" do
+      oneof :data do
+        optional :devaddr, :uint32, 1
+        optional :eui, :message, 2, "helium.eui"
+      end
+    end
     add_message "helium.packet" do
       optional :oui, :uint32, 1
       optional :type, :enum, 2, "helium.packet.packet_type"
@@ -14,6 +24,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :frequency, :float, 6
       optional :datarate, :string, 7
       optional :snr, :float, 8
+      optional :routing, :message, 9, "helium.routing_information"
     end
     add_enum "helium.packet.packet_type" do
       value :longfi, 0
@@ -23,6 +34,8 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
 end
 
 module Helium
+  Eui = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.eui").msgclass
+  Routing_information = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.routing_information").msgclass
   Packet = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.packet").msgclass
   Packet::Packet_type = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.packet.packet_type").enummodule
 end

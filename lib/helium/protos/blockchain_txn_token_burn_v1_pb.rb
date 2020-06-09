@@ -6,21 +6,15 @@ require 'google/protobuf'
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("blockchain_txn_token_burn_v1.proto", :syntax => :proto3) do
     add_message "helium.blockchain_txn_token_burn_v1" do
-      optional :type, :enum, 1, "helium.blockchain_txn_token_burn_v1.Type"
-      optional :payer, :bytes, 2
-      optional :key, :bytes, 3
-      optional :amount, :uint64, 4
-      optional :nonce, :uint64, 5
-      optional :signature, :bytes, 6
-    end
-    add_enum "helium.blockchain_txn_token_burn_v1.Type" do
-      value :account, 0
-      value :channel, 1
+      optional :payer, :bytes, 1
+      optional :payee, :bytes, 2
+      optional :amount, :uint64, 3
+      optional :nonce, :uint64, 4
+      optional :signature, :bytes, 5
     end
   end
 end
 
 module Helium
   Blockchain_txn_token_burn_v1 = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.blockchain_txn_token_burn_v1").msgclass
-  Blockchain_txn_token_burn_v1::Type = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.blockchain_txn_token_burn_v1.Type").enummodule
 end
