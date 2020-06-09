@@ -2,6 +2,18 @@ syntax = "proto3";
 
 package helium;
 
+message eui {
+    uint64 deveui = 1;
+    uint64 appeui = 2;
+}
+
+message routing_information {
+    oneof data {
+        uint32 devaddr = 1;
+        eui eui = 2;
+    }
+}
+
 message packet {
     uint32 oui = 1;
     enum packet_type {
@@ -15,4 +27,5 @@ message packet {
     float frequency = 6;
     string datarate = 7;
     float snr = 8;
+    routing_information routing = 9;
     }
