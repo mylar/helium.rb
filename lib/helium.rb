@@ -107,4 +107,8 @@ module Helium
   def self.transaction(transaction_hash)
     Helium::Client.new.transaction(transaction_hash)
   end
+
+  def self.height
+    Helium::Client.new.height
+  end
 end

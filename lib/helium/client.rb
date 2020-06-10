@@ -10,6 +10,15 @@ module Helium
     class InputError < StandardError; end
     class ServiceError < StandardError; end
 
+    def height
+      response = HTTP.headers('Content-Type' => 'application/json', 'Accept' => 'application/json')
+                     .get('https://api.helium.io/v1/blocks/height')
+
+      raise ServiceError, "Unexpected response: #{response.status}: #{response.body}" unless response.status.ok?
+
+      JSON.parse(response.body.to_s)['data']['height']
+    end
+
     def account(address)
       raise InputError, 'Expected a Helium address object' unless address.is_a?(Helium::Address)
 
