@@ -24,6 +24,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency('rbnacl', '~> 7.1')
   spec.add_dependency('warning', '~> 1.0')
   spec.add_development_dependency('down', '~> 5.1')
+  spec.add_development_dependency('highline', '~> 2.0')
   spec.add_development_dependency('rake', '~> 13.0')
   spec.add_development_dependency('rspec', '~> 3.9')
   spec.add_development_dependency('webmock', '~> 3.8')
