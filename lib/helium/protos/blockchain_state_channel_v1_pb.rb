@@ -4,7 +4,6 @@
 require 'google/protobuf'
 
 require 'packet_pb'
-require 'skewed_pb'
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("blockchain_state_channel_v1.proto", :syntax => :proto3) do
     add_message "helium.blockchain_state_channel_summary_v1" do
@@ -19,7 +18,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :nonce, :uint64, 4
       repeated :summaries, :message, 5, "helium.blockchain_state_channel_summary_v1"
       optional :root_hash, :bytes, 6
-      optional :skewed, :message, 7, "helium.skewed"
+      optional :skewed, :bytes, 7
       optional :state, :enum, 8, "helium.blockchain_state_channel_state_v1"
       optional :expire_at_block, :uint64, 9
       optional :signature, :bytes, 10
@@ -32,9 +31,40 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :packet, :message, 1, "helium.packet"
       optional :hotspot, :bytes, 2
       optional :signature, :bytes, 3
-      optional :region, :enum, 4, "helium.blockchain_state_channel_packet_v1.Region"
+      optional :region, :enum, 4, "helium.Region"
     end
-    add_enum "helium.blockchain_state_channel_packet_v1.Region" do
+    add_message "helium.blockchain_state_channel_offer_v1" do
+      optional :routing, :message, 1, "helium.routing_information"
+      optional :packet_hash, :bytes, 2
+      optional :payload_size, :uint64, 3
+      optional :fcnt, :uint32, 4
+      optional :hotspot, :bytes, 5
+      optional :signature, :bytes, 6
+      optional :region, :enum, 7, "helium.Region"
+    end
+    add_message "helium.blockchain_state_channel_purchase_v1" do
+      optional :sc, :message, 1, "helium.blockchain_state_channel_v1"
+      optional :hotspot, :bytes, 2
+      optional :packet_hash, :bytes, 3
+      optional :region, :enum, 4, "helium.Region"
+    end
+    add_message "helium.blockchain_state_channel_banner_v1" do
+      optional :sc, :message, 1, "helium.blockchain_state_channel_v1"
+    end
+    add_message "helium.blockchain_state_channel_rejection_v1" do
+      optional :reject, :uint32, 1
+    end
+    add_message "helium.blockchain_state_channel_message_v1" do
+      oneof :msg do
+        optional :response, :message, 2, "helium.blockchain_state_channel_response_v1"
+        optional :packet, :message, 4, "helium.blockchain_state_channel_packet_v1"
+        optional :offer, :message, 5, "helium.blockchain_state_channel_offer_v1"
+        optional :purchase, :message, 6, "helium.blockchain_state_channel_purchase_v1"
+        optional :banner, :message, 7, "helium.blockchain_state_channel_banner_v1"
+        optional :reject, :message, 8, "helium.blockchain_state_channel_rejection_v1"
+      end
+    end
+    add_enum "helium.Region" do
       value :US915, 0
       value :EU868, 1
       value :EU433, 2
@@ -44,12 +74,6 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       value :AS923, 6
       value :KR920, 7
       value :IN865, 8
-    end
-    add_message "helium.blockchain_state_channel_message_v1" do
-      oneof :msg do
-        optional :response, :message, 2, "helium.blockchain_state_channel_response_v1"
-        optional :packet, :message, 4, "helium.blockchain_state_channel_packet_v1"
-      end
     end
     add_enum "helium.blockchain_state_channel_state_v1" do
       value :open, 0
@@ -63,7 +87,11 @@ module Helium
   Blockchain_state_channel_v1 = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.blockchain_state_channel_v1").msgclass
   Blockchain_state_channel_response_v1 = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.blockchain_state_channel_response_v1").msgclass
   Blockchain_state_channel_packet_v1 = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.blockchain_state_channel_packet_v1").msgclass
-  Blockchain_state_channel_packet_v1::Region = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.blockchain_state_channel_packet_v1.Region").enummodule
+  Blockchain_state_channel_offer_v1 = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.blockchain_state_channel_offer_v1").msgclass
+  Blockchain_state_channel_purchase_v1 = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.blockchain_state_channel_purchase_v1").msgclass
+  Blockchain_state_channel_banner_v1 = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.blockchain_state_channel_banner_v1").msgclass
+  Blockchain_state_channel_rejection_v1 = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.blockchain_state_channel_rejection_v1").msgclass
   Blockchain_state_channel_message_v1 = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.blockchain_state_channel_message_v1").msgclass
+  Region = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.Region").enummodule
   Blockchain_state_channel_state_v1 = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.blockchain_state_channel_state_v1").enummodule
 end

@@ -10,6 +10,8 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :state_channel, :message, 1, "helium.blockchain_state_channel_v1"
       optional :closer, :bytes, 2
       optional :signature, :bytes, 3
+      optional :fee, :uint64, 4
+      optional :conflicts_with, :message, 5, "helium.blockchain_state_channel_v1"
     end
   end
 end

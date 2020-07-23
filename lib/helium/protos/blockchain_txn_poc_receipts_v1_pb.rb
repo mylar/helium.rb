@@ -12,6 +12,8 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :data, :bytes, 4
       optional :origin, :enum, 5, "helium.origin"
       optional :signature, :bytes, 6
+      optional :snr, :float, 7
+      optional :frequency, :float, 8
     end
     add_message "helium.blockchain_poc_witness_v1" do
       optional :gateway, :bytes, 1
@@ -19,6 +21,8 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :signal, :sint32, 3
       optional :packet_hash, :bytes, 4
       optional :signature, :bytes, 5
+      optional :snr, :float, 6
+      optional :frequency, :float, 7
     end
     add_message "helium.blockchain_poc_response_v1" do
       oneof :payload do

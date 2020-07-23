@@ -18,6 +18,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :fee, :uint64, 7
       optional :nonce, :uint64, 8
       optional :signature, :bytes, 9
+      optional :staking_fee, :uint64, 10
       oneof :update do
         optional :update_routers, :message, 3, "helium.update_routers"
         optional :new_xor, :bytes, 4
