@@ -19,6 +19,9 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       repeated :cancels, :bytes, 6
       repeated :unsets, :bytes, 7
       optional :nonce, :uint32, 8
+      repeated :multi_keys, :bytes, 9
+      repeated :multi_proofs, :bytes, 10
+      repeated :multi_key_proofs, :bytes, 11
     end
   end
 end

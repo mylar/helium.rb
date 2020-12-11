@@ -15,6 +15,11 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
         optional :eui, :message, 2, "helium.eui"
       end
     end
+    add_message "helium.window" do
+      optional :timestamp, :uint64, 1
+      optional :frequency, :float, 2
+      optional :datarate, :string, 3
+    end
     add_message "helium.packet" do
       optional :oui, :uint32, 1
       optional :type, :enum, 2, "helium.packet.packet_type"
@@ -25,6 +30,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :datarate, :string, 7
       optional :snr, :float, 8
       optional :routing, :message, 9, "helium.routing_information"
+      optional :rx2_window, :message, 10, "helium.window"
     end
     add_enum "helium.packet.packet_type" do
       value :longfi, 0
@@ -36,6 +42,7 @@ end
 module Helium
   Eui = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.eui").msgclass
   Routing_information = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.routing_information").msgclass
+  Window = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.window").msgclass
   Packet = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.packet").msgclass
   Packet::Packet_type = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.packet.packet_type").enummodule
 end

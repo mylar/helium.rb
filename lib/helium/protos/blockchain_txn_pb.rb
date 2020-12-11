@@ -28,6 +28,7 @@ require 'blockchain_txn_state_channel_close_v1_pb'
 require 'blockchain_txn_payment_v2_pb'
 require 'blockchain_txn_price_oracle_v1_pb'
 require 'blockchain_txn_gen_price_oracle_v1_pb'
+require 'blockchain_txn_transfer_hotspot_v1_pb'
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("blockchain_txn.proto", :syntax => :proto3) do
     add_message "helium.blockchain_txn" do
@@ -58,6 +59,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
         optional :payment_v2, :message, 24, "helium.blockchain_txn_payment_v2"
         optional :price_oracle_submission, :message, 25, "helium.blockchain_txn_price_oracle_v1"
         optional :gen_price_oracle, :message, 26, "helium.blockchain_txn_gen_price_oracle_v1"
+        optional :transfer_hotspot, :message, 27, "helium.blockchain_txn_transfer_hotspot_v1"
       end
     end
     add_message "helium.blockchain_txn_bundle_v1" do
