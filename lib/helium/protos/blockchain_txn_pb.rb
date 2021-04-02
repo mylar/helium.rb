@@ -11,6 +11,7 @@ require 'blockchain_txn_routing_v1_pb'
 require 'blockchain_txn_payment_v1_pb'
 require 'blockchain_txn_security_exchange_v1_pb'
 require 'blockchain_txn_consensus_group_v1_pb'
+require 'blockchain_txn_consensus_group_failure_v1_pb'
 require 'blockchain_txn_add_gateway_v1_pb'
 require 'blockchain_txn_assert_location_v1_pb'
 require 'blockchain_txn_create_htlc_v1_pb'
@@ -29,6 +30,13 @@ require 'blockchain_txn_payment_v2_pb'
 require 'blockchain_txn_price_oracle_v1_pb'
 require 'blockchain_txn_gen_price_oracle_v1_pb'
 require 'blockchain_txn_transfer_hotspot_v1_pb'
+require 'blockchain_txn_rewards_v2_pb'
+require 'blockchain_txn_gen_validator_v1_pb'
+require 'blockchain_txn_stake_validator_v1_pb'
+require 'blockchain_txn_transfer_validator_stake_v1_pb'
+require 'blockchain_txn_unstake_validator_v1_pb'
+require 'blockchain_txn_validator_heartbeat_v1_pb'
+require 'blockchain_txn_assert_location_v2_pb'
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("blockchain_txn.proto", :syntax => :proto3) do
     add_message "helium.blockchain_txn" do
@@ -60,6 +68,14 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
         optional :price_oracle_submission, :message, 25, "helium.blockchain_txn_price_oracle_v1"
         optional :gen_price_oracle, :message, 26, "helium.blockchain_txn_gen_price_oracle_v1"
         optional :transfer_hotspot, :message, 27, "helium.blockchain_txn_transfer_hotspot_v1"
+        optional :gen_validator, :message, 28, "helium.blockchain_txn_gen_validator_v1"
+        optional :stake_validator, :message, 29, "helium.blockchain_txn_stake_validator_v1"
+        optional :transfer_val_stake, :message, 30, "helium.blockchain_txn_transfer_validator_stake_v1"
+        optional :unstake_validator, :message, 31, "helium.blockchain_txn_unstake_validator_v1"
+        optional :val_heartbeat, :message, 32, "helium.blockchain_txn_validator_heartbeat_v1"
+        optional :consensus_group_failure, :message, 33, "helium.blockchain_txn_consensus_group_failure_v1"
+        optional :rewards_v2, :message, 34, "helium.blockchain_txn_rewards_v2"
+        optional :assert_location_v2, :message, 35, "helium.blockchain_txn_assert_location_v2"
       end
     end
     add_message "helium.blockchain_txn_bundle_v1" do
