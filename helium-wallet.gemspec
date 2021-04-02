@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   # spec.metadata['changelog_uri'] = "TODO: Put your gem's CHANGELOG.md URL here."
 
   spec.add_dependency('base58', '~> 0.2.3')
-  spec.add_dependency('google-protobuf', '~> 3.11.4')
+  spec.add_dependency('google-protobuf', '~> 3.15.7')
   spec.add_dependency('http', '~> 4.3')
   spec.add_dependency('rbnacl', '~> 7.1')
   spec.add_dependency('warning', '~> 1.0')
