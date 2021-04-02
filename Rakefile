@@ -31,14 +31,17 @@ namespace :protos do
   ]
   PROTOS_RB_DIR = 'lib/helium/protos'
 
+  desc 'Add proto git subtree'
   task :add do
     sh "git subtree add --prefix protos #{PROTO_REPO_URL} master --squash"
   end
 
+  desc 'Update proto git subtree'
   task :update do
     sh "git subtree pull --prefix protos #{PROTO_REPO_URL} master --squash"
   end
 
+  desc 'Compile protos'
   task :compile do
     Dir.glob("#{PROTOS_RB_DIR}/*_pb.rb").each { |f| FileUtils.rm(f) }
     sh "protoc --ruby_out=#{PROTOS_RB_DIR} --proto_path=#{PROTO_DIR} #{PROTO_FILES.join(' ')}"
