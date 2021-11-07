@@ -37,6 +37,7 @@ require 'blockchain_txn_transfer_validator_stake_v1_pb'
 require 'blockchain_txn_unstake_validator_v1_pb'
 require 'blockchain_txn_validator_heartbeat_v1_pb'
 require 'blockchain_txn_assert_location_v2_pb'
+require 'blockchain_txn_transfer_hotspot_v2_pb'
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("blockchain_txn.proto", :syntax => :proto3) do
     add_message "helium.blockchain_txn" do
@@ -76,6 +77,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
         optional :consensus_group_failure, :message, 33, "helium.blockchain_txn_consensus_group_failure_v1"
         optional :rewards_v2, :message, 34, "helium.blockchain_txn_rewards_v2"
         optional :assert_location_v2, :message, 35, "helium.blockchain_txn_assert_location_v2"
+        optional :transfer_hotspot_v2, :message, 36, "helium.blockchain_txn_transfer_hotspot_v2"
       end
     end
     add_message "helium.blockchain_txn_bundle_v1" do

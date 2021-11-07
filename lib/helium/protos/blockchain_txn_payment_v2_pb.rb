@@ -15,6 +15,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     add_message "helium.payment" do
       optional :payee, :bytes, 1
       optional :amount, :uint64, 2
+      optional :memo, :uint64, 3
     end
   end
 end

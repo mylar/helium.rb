@@ -11,6 +11,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :owner_signature, :bytes, 3
       optional :fee, :uint64, 4
       optional :stake_amount, :uint64, 5
+      optional :stake_release_height, :uint64, 6
     end
   end
 end

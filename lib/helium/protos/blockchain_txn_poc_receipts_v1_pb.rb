@@ -17,6 +17,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :channel, :int32, 9
       optional :datarate, :string, 10
       optional :addr_hash, :bytes, 11
+      optional :tx_power, :int32, 12
     end
     add_message "helium.blockchain_poc_witness_v1" do
       optional :gateway, :bytes, 1
