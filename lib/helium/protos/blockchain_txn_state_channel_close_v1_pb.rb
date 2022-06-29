@@ -4,6 +4,7 @@
 require 'google/protobuf'
 
 require 'blockchain_state_channel_v1_pb'
+
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("blockchain_txn_state_channel_close_v1.proto", :syntax => :proto3) do
     add_message "helium.blockchain_txn_state_channel_close_v1" do

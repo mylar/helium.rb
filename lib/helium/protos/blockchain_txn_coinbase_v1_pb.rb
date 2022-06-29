@@ -3,11 +3,14 @@
 
 require 'google/protobuf'
 
+require 'blockchain_token_type_v1_pb'
+
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("blockchain_txn_coinbase_v1.proto", :syntax => :proto3) do
     add_message "helium.blockchain_txn_coinbase_v1" do
       optional :payee, :bytes, 1
       optional :amount, :uint64, 2
+      optional :token_type, :enum, 3, "helium.blockchain_token_type_v1"
     end
   end
 end

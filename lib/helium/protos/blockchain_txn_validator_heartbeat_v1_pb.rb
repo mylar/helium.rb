@@ -10,6 +10,8 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :height, :uint64, 2
       optional :version, :uint32, 3
       optional :signature, :bytes, 4
+      repeated :poc_key_proposals, :bytes, 5
+      repeated :reactivated_gws, :bytes, 6
     end
   end
 end

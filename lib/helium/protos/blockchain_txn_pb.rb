@@ -18,6 +18,7 @@ require 'blockchain_txn_create_htlc_v1_pb'
 require 'blockchain_txn_redeem_htlc_v1_pb'
 require 'blockchain_txn_poc_request_v1_pb'
 require 'blockchain_txn_poc_receipts_v1_pb'
+require 'blockchain_txn_poc_receipts_v2_pb'
 require 'blockchain_txn_vars_v1_pb'
 require 'blockchain_txn_rewards_v1_pb'
 require 'blockchain_txn_token_burn_v1_pb'
@@ -38,6 +39,11 @@ require 'blockchain_txn_unstake_validator_v1_pb'
 require 'blockchain_txn_validator_heartbeat_v1_pb'
 require 'blockchain_txn_assert_location_v2_pb'
 require 'blockchain_txn_transfer_hotspot_v2_pb'
+require 'blockchain_txn_add_subnetwork_v1_pb'
+require 'blockchain_txn_update_subnetwork_v1_pb'
+require 'blockchain_txn_subnetwork_rewards_v1_pb'
+require 'blockchain_txn_token_redeem_v1_pb'
+
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("blockchain_txn.proto", :syntax => :proto3) do
     add_message "helium.blockchain_txn" do
@@ -78,6 +84,11 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
         optional :rewards_v2, :message, 34, "helium.blockchain_txn_rewards_v2"
         optional :assert_location_v2, :message, 35, "helium.blockchain_txn_assert_location_v2"
         optional :transfer_hotspot_v2, :message, 36, "helium.blockchain_txn_transfer_hotspot_v2"
+        optional :poc_receipts_v2, :message, 37, "helium.blockchain_txn_poc_receipts_v2"
+        optional :add_subnetwork, :message, 38, "helium.blockchain_txn_add_subnetwork_v1"
+        optional :update_subnetwork, :message, 39, "helium.blockchain_txn_update_subnetwork_v1"
+        optional :subnetwork_rewards, :message, 40, "helium.blockchain_txn_subnetwork_rewards_v1"
+        optional :token_redeem, :message, 41, "helium.blockchain_txn_token_redeem_v1"
       end
     end
     add_message "helium.blockchain_txn_bundle_v1" do

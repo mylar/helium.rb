@@ -25,9 +25,12 @@ namespace :protos do
   PROTO_REPO_URL = 'https://github.com/helium/proto.git'
   PROTO_DIR = 'protos/src'
   PROTO_FILES = Dir.glob("#{PROTO_DIR}/blockchain_txn_*.proto") + %W[
+    #{PROTO_DIR}/blockchain_poc_core_v1.proto
+    #{PROTO_DIR}/blockchain_token_type_v1.proto
     #{PROTO_DIR}/blockchain_txn.proto
     #{PROTO_DIR}/blockchain_state_channel_v1.proto
     #{PROTO_DIR}/packet.proto
+    #{PROTO_DIR}/region.proto
   ]
   PROTOS_RB_DIR = 'lib/helium/protos'
 
