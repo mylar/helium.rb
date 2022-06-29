@@ -17,6 +17,7 @@ import "blockchain_txn_create_htlc_v1.proto";
 import "blockchain_txn_redeem_htlc_v1.proto";
 import "blockchain_txn_poc_request_v1.proto";
 import "blockchain_txn_poc_receipts_v1.proto";
+import "blockchain_txn_poc_receipts_v2.proto";
 import "blockchain_txn_vars_v1.proto";
 import "blockchain_txn_rewards_v1.proto";
 import "blockchain_txn_token_burn_v1.proto";
@@ -39,6 +40,12 @@ import "blockchain_txn_validator_heartbeat_v1.proto";
 
 import "blockchain_txn_assert_location_v2.proto";
 import "blockchain_txn_transfer_hotspot_v2.proto";
+
+import "blockchain_txn_add_subnetwork_v1.proto";
+import "blockchain_txn_update_subnetwork_v1.proto";
+import "blockchain_txn_subnetwork_rewards_v1.proto";
+
+import "blockchain_txn_token_redeem_v1.proto";
 
 message blockchain_txn {
   oneof txn {
@@ -78,6 +85,11 @@ message blockchain_txn {
     blockchain_txn_rewards_v2 rewards_v2 = 34;
     blockchain_txn_assert_location_v2 assert_location_v2 = 35;
     blockchain_txn_transfer_hotspot_v2 transfer_hotspot_v2 = 36;
+    blockchain_txn_poc_receipts_v2 poc_receipts_v2 = 37;
+    blockchain_txn_add_subnetwork_v1 add_subnetwork = 38;
+    blockchain_txn_update_subnetwork_v1 update_subnetwork = 39;
+    blockchain_txn_subnetwork_rewards_v1 subnetwork_rewards = 40;
+    blockchain_txn_token_redeem_v1 token_redeem = 41;
   }
 }
 
