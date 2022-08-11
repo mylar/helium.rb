@@ -8,7 +8,7 @@ require 'blockchain_txn_pb'
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("service/follower.proto", :syntax => :proto3) do
     add_message "helium.follower_txn_stream_req_v1" do
-      proto3_optional :height, :uint64, 1
+      optional :height, :uint64, 1
       optional :txn_hash, :bytes, 2
       repeated :txn_types, :string, 3
     end

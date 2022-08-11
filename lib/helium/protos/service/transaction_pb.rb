@@ -21,6 +21,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     end
     add_message "helium.txn_submit_req_v1" do
       optional :txn, :message, 1, "helium.blockchain_txn"
+      optional :key, :bytes, 2
     end
     add_message "helium.txn_submit_resp_v1" do
       optional :key, :bytes, 1

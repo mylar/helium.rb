@@ -49,6 +49,16 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :address, :bytes, 1
       optional :signature, :bytes, 2
     end
+    add_message "helium.gateway_region_params_req_v1" do
+      optional :region, :enum, 1, "helium.region"
+      optional :address, :bytes, 2
+      optional :signature, :bytes, 3
+    end
+    add_message "helium.gateway_region_params_resp_v1" do
+      optional :region, :enum, 1, "helium.region"
+      optional :params, :message, 2, "helium.blockchain_region_params_v1"
+      optional :gain, :uint64, 3
+    end
     add_message "helium.gateway_resp_v1" do
       optional :height, :uint64, 1
       optional :signature, :bytes, 2
@@ -70,6 +80,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
         optional :poc_check_target_resp, :message, 17, "helium.gateway_poc_check_challenge_target_resp_v1"
         optional :public_route, :message, 18, "helium.gateway_public_routing_data_resp_v1"
         optional :version, :message, 19, "helium.gateway_version_resp_v1"
+        optional :region_params_resp, :message, 20, "helium.gateway_region_params_resp_v1"
       end
     end
     add_message "helium.gateway_version_req_v1" do
@@ -187,6 +198,8 @@ module Helium
   Gateway_validators_resp_v1 = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.gateway_validators_resp_v1").msgclass
   Gateway_region_params_streamed_resp_v1 = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.gateway_region_params_streamed_resp_v1").msgclass
   Gateway_region_params_update_req_v1 = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.gateway_region_params_update_req_v1").msgclass
+  Gateway_region_params_req_v1 = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.gateway_region_params_req_v1").msgclass
+  Gateway_region_params_resp_v1 = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.gateway_region_params_resp_v1").msgclass
   Gateway_resp_v1 = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.gateway_resp_v1").msgclass
   Gateway_version_req_v1 = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.gateway_version_req_v1").msgclass
   Gateway_version_resp_v1 = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.gateway_version_resp_v1").msgclass
