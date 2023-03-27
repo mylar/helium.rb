@@ -20,6 +20,20 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       value :AS923_4, 11
       value :AS923_1B, 12
       value :CD900_1A, 13
+      value :RU864, 14
+      value :EU868_A, 15
+      value :EU868_B, 16
+      value :EU868_C, 17
+      value :EU868_D, 18
+      value :EU868_E, 19
+      value :EU868_F, 20
+      value :AU915_SB1, 21
+      value :AU915_SB2, 22
+      value :AS923_1A, 23
+      value :AS923_1C, 24
+      value :AS923_1D, 25
+      value :AS923_1E, 26
+      value :AS923_1F, 27
     end
   end
 end

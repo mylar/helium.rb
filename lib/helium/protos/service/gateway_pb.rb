@@ -4,15 +4,11 @@
 require 'google/protobuf'
 
 require 'blockchain_routing_address_pb'
-require 'blockchain_state_channel_v1_pb'
 require 'blockchain_txn_state_channel_close_v1_pb'
 require 'blockchain_txn_vars_v1_pb'
 require 'blockchain_poc_core_v1_pb'
-require 'blockchain_txn_poc_receipts_v1_pb'
-require 'blockchain_txn_poc_receipts_v2_pb'
 require 'blockchain_region_param_v1_pb'
 require 'region_pb'
-require 'blockchain_txn_pb'
 
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("service/gateway.proto", :syntax => :proto3) do

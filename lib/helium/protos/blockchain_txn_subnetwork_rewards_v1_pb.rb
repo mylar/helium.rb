@@ -11,6 +11,11 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :account, :bytes, 1
       optional :amount, :uint64, 2
     end
+    add_message "helium.subnetwork_rewards" do
+      optional :start_epoch, :uint64, 1
+      optional :end_epoch, :uint64, 2
+      repeated :rewards, :message, 3, "helium.subnetwork_reward"
+    end
     add_message "helium.blockchain_txn_subnetwork_rewards_v1" do
       optional :token_type, :enum, 1, "helium.blockchain_token_type_v1"
       optional :start_epoch, :uint64, 2
@@ -23,5 +28,6 @@ end
 
 module Helium
   Subnetwork_reward = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.subnetwork_reward").msgclass
+  Subnetwork_rewards = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.subnetwork_rewards").msgclass
   Blockchain_txn_subnetwork_rewards_v1 = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("helium.blockchain_txn_subnetwork_rewards_v1").msgclass
 end

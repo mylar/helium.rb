@@ -42,6 +42,7 @@ require 'blockchain_txn_transfer_hotspot_v2_pb'
 require 'blockchain_txn_add_subnetwork_v1_pb'
 require 'blockchain_txn_update_subnetwork_v1_pb'
 require 'blockchain_txn_subnetwork_rewards_v1_pb'
+require 'blockchain_txn_subnetwork_fund_v1_pb'
 require 'blockchain_txn_token_redeem_v1_pb'
 
 Google::Protobuf::DescriptorPool.generated_pool.build do
@@ -89,6 +90,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
         optional :update_subnetwork, :message, 39, "helium.blockchain_txn_update_subnetwork_v1"
         optional :subnetwork_rewards, :message, 40, "helium.blockchain_txn_subnetwork_rewards_v1"
         optional :token_redeem, :message, 41, "helium.blockchain_txn_token_redeem_v1"
+        optional :subnetwork_fund, :message, 42, "helium.blockchain_txn_subnetwork_fund_v1"
       end
     end
     add_message "helium.blockchain_txn_bundle_v1" do
