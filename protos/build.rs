@@ -1,27 +1,56 @@
 use std::io::Result;
 
 #[cfg(feature = "services")]
-fn main() -> Result<()> {
-    tonic_build::configure()
-        .build_server(false)
-        .type_attribute(".", "#[derive(serde_derive::Serialize)]")
-        .compile(
-            &[
-                "src/blockchain_txn.proto",
-                "src/service/router.proto",
-                "src/service/state_channel.proto",
-                "src/service/gateway.proto",
-                "src/service/follower.proto",
-                "src/service/transaction.proto",
-            ],
-            &["src/"],
-        )?;
+const SERVICES: &[&str] = &[
+    "src/service/router.proto",
+    "src/service/state_channel.proto",
+    "src/service/local.proto",
+    "src/service/gateway.proto",
+    "src/service/transaction.proto",
+    "src/service/follower.proto",
+    "src/service/poc_mobile.proto",
+    "src/service/poc_lora.proto",
+    "src/service/poc_entropy.proto",
+    "src/service/packet_router.proto",
+    "src/service/iot_config.proto",
+    "src/service/mobile_config.proto",
+    "src/service/downlink.proto",
+    "src/service/packet_verifier.proto",
+];
 
-    tonic_build::configure()
+const MESSAGES: &[&str] = &[
+    "src/blockchain_txn.proto",
+    "src/entropy.proto",
+    "src/data_rate.proto",
+    "src/region.proto",
+    "src/mapper.proto",
+    "src/reward_manifest.proto",
+    "src/blockchain_region_param_v1.proto",
+    "src/price_report.proto",
+];
+
+macro_rules! config {
+    ($config:expr) => {
+        $config
+            .type_attribute(".", "#[derive(serde::Serialize, serde::Deserialize)]")
+            .field_attribute(
+                ".helium.tagged_spreading.region_spreading",
+                "#[serde(with = \"serde_region_spreading\" )]",
+            )
+    };
+}
+
+#[cfg(feature = "services")]
+fn main() -> Result<()> {
+    config!(tonic_build::configure())
         .build_server(true)
-        .type_attribute(".", "#[derive(serde_derive::Serialize)]")
+        .build_client(true)
         .compile(
-            &["src/service/local.proto", "src/service/poc_mobile.proto"],
+            &MESSAGES
+                .iter()
+                .chain(SERVICES)
+                .map(|str| *str)
+                .collect::<Vec<&str>>(),
             &["src"],
         )?;
     Ok(())
@@ -29,8 +58,6 @@ fn main() -> Result<()> {
 
 #[cfg(not(feature = "services"))]
 fn main() -> Result<()> {
-    prost_build::Config::new()
-        .type_attribute(".", "#[derive(serde_derive::Serialize)]")
-        .compile_protos(&["src/blockchain_txn.proto"], &["src/"])?;
+    config!(prost_build::Config::new()).compile_protos(MESSAGES, &["src"])?;
     Ok(())
 }
